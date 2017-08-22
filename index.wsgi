@@ -1,3 +1,5 @@
-def application(environ, start_response):
-    start_response('200 ok', [('content-type', 'text/plain')])
-    return ['Hello, SAE!']
+import sae
+import os, sys
+root = os.path.dirname(__file__)
+from web import wsgi
+application = sae.create_wsgi_app(wsgi.application)
