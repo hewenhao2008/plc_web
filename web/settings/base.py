@@ -1,3 +1,4 @@
+# coding=utf-8
 """
 Django settings for web project.
 
@@ -68,32 +69,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'web.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'app_yakumo',
-        'USER': '1m4zwn31kn',
-        'PASSWORD': 'i155mii155xx51xkyi0ximxl3hzy3hzk244lk4j0',
-        'HOST': 'w.rdc.sae.sina.com.cn',
-        'PORT': 3306
-    }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'plc_web',
-    #     'USER': 'root',
-    #     'PASSWORD': 'touhou',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': 3306
-    # }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
-}
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
@@ -111,4 +86,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+# 在SAE上部署需要设置静态目录地址
 STATIC_ROOT = 'static/'
