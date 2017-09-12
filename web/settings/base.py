@@ -14,7 +14,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# 因为将配置分为开发环境、生产环境，新建了一级目录，所以这里需要改动多加一层
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -36,10 +37,13 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'plc_web',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware', # django-cors-headers
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -50,11 +54,13 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'web.urls'
-
+# ,
+#
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),
+                 'frontend_plc_web/dist'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,9 +78,9 @@ WSGI_APPLICATION = 'web.wsgi.application'
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -88,3 +94,20 @@ USE_TZ = True
 STATIC_URL = '/static/'
 # 在SAE上部署需要设置静态目录地址
 STATIC_ROOT = 'static/'
+
+# Add for vue
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'frontend_plc_web/dist/static'),
+]
+
+# django-cors-headers
+CORS_ORIGIN_ALLOW_ALL = True
+
+# django-rest-framework
+REST_FRAMEWORK = {
+    # 身份验证
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAdminUser',
+    # ],
+    'PAGE_SIZE': 10
+}

@@ -14,7 +14,18 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.views.generic.base import TemplateView
+
+from plc_web.views import index, current_datetime, hours_ahead, yunji_1, npm
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', TemplateView.as_view(template_name='index.html')),
+    url(r'^time/$', current_datetime),
+    url(r'^time/plus/(\d{1,2})$', hours_ahead),
+    url(r'^yunji/1/$', TemplateView.as_view(template_name='p1.html')),
+    url(r'^vue/2/$', TemplateView.as_view(template_name='vue_test.html')),
+    url(r'^yunji/$', TemplateView.as_view(template_name='vue.html')),
+    url(r'^api/', include('plc_web.urls')),
+    url(r'^__webpack_hmr/$', npm)
 ]
