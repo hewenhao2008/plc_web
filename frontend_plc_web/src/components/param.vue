@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div class="layout-breadcrumb">
       <Breadcrumb>
         <Breadcrumb-item href="/">首页</Breadcrumb-item>
@@ -7,6 +8,7 @@
         <Breadcrumb-item href="param">工艺参数</Breadcrumb-item>
       </Breadcrumb>
     </div>
+
     <div class="layout-content">
       <div class="layout-content-main">
         <div class="col-xs-10">
@@ -19,15 +21,13 @@
                 <div class="col-lg-10 col-sm-10 col-xs-12" id="sele">
 
                   <div class="input-group line left">
-                    <!--                    <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-search"></span></span>-->
-                    <!--                    <input type="text" class="form-control" placeholder="设备名称" aria-describedby="basic-addon2">-->
                   </div>
 
-                  <Select v-model="plc_id" style="width:200px">
+                  <Select v-model="plc_id" style="width:200px" @on-change="post_group">
                     <Option v-for="plc in plcs" :value="plc.id" :key="plc.id">{{ plc.plc_name }}</Option>
                   </Select>
 
-                  <Select v-model="group_id" style="width:200px">
+                  <Select v-model="group_id" style="width:200px" @on-change="post_variable">
                     <Option v-for="group in groups" :value="group.id" :key="group.id">{{ group.group_name }}</Option>
                   </Select>
 
@@ -37,8 +37,9 @@
             </div>
           </div>
 
-            <Table stripe highlight-row border :columns="columns" :data="variables"></Table>
+          <Table stripe highlight-row border :columns="columns" :data="variables"></Table>
 
+          <param-create :variable_id='data.id' :showCreate="showCreate" @close="closeCreate"></param-create>
         </div>
       </div>
     </div>
@@ -50,6 +51,8 @@
   import Group from '../models/actions/group'
   import Variable from '../models/actions/variable'
 
+  import paramCreate from './param_create'
+
   export default {
     data () {
       return {
@@ -58,6 +61,10 @@
         groups: [],
         plcs: [],
         variables: [],
+        showCreate: false,
+        showEdit: false,
+        showDelete: false,
+        data: {},
         columns: [
           {
             title: '序号',
@@ -98,32 +105,26 @@
                   },
                   on: {
                     click: () => {
+                      this.data = params.row
                       this.showCreate = true
                     }
                   }
-                }, '编辑')
+                }, '添加参数')
               ])
             }
           }
         ]
       }
     },
+    components: {
+      'paramCreate': paramCreate
+    },
     created () {
+      this.get_variable()
       this.get_plc()
       this.get_group()
     },
-    watch: {
-      plc_id: function () {
-        this.get_group_from_plc()
-      },
-      group_id: function () {
-        this.get_variable_from_group()
-      }
-    },
     methods: {
-      flush () {
-        setInterval(this.get_value(), 5000)
-      },
       get_plc () {
         new PLC()
           .GET()
@@ -138,6 +139,13 @@
             this.groups = res.data['data']
           })
       },
+      get_variable () {
+        new Variable()
+          .GET()
+          .then((res) => {
+            this.variables = res.data['data']
+          })
+      },
       post_variable () {
         new Variable()
           .POST({
@@ -147,7 +155,7 @@
             this.variables = res.data['data']
           })
       },
-      get_group_from_plc () {
+      post_group () {
         new Group()
           .POST({
             data: {
@@ -158,34 +166,23 @@
             this.groups = res.data['data']
           })
       },
-      get_variable_from_group () {
-        new Variable()
-          .POST({
-            data: {
-              group_id: this.group_id
-            }
-          })
-          .then((res) => {
-            this.variables = res.data['data']
-          })
-      },
       change (page) {
         console.log(page)
       },
       change_time (time) {
         return new Date(parseInt(time) * 1000).toLocaleString().replace(/年|月/g, '-').replace(/日/g, ' ')
       },
-      model_edit (stationId) {
-        console.log('edit' + stationId)
+      closeCreate () {
+        this.showCreate = false
+        this.get_variable()
       },
-      model_delete (stationId) {
-        console.log('delete' + stationId)
+      closeEdit () {
+        this.showEdit = false
+        this.get_variable()
       },
-      model_create () {
-        console.log('create')
-      },
-      modify () {
-        console.log('modify')
+      closeDelete () {
+        this.showDelete = false
+        this.get_variable()
       }
     }
   }

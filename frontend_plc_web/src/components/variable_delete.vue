@@ -8,7 +8,8 @@
       <p>是否继续删除？</p>
     </div>
     <div slot="footer">
-      <Button type="error" size="large" long :loading="loading" @click="deleteSubmit">删除</Button>
+      <Button type="error" size="large" :loading="loading" @click="deleteSubmit">删除</Button>
+      <Button size="large" @click="close">取消</Button>
     </div>
   </Modal>
 </template>

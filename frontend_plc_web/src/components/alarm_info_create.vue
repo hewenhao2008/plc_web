@@ -47,7 +47,6 @@
 
 
 <script>
-  import Group from '../models/actions/group'
   import AlarmInfo from '../models/actions/alarm_info'
   import Variable from '../models/actions/variable'
 
@@ -56,7 +55,6 @@
       return {
         loading: false,
         group_id: '',
-        groups: [],
         variables: [],
         formAlarmInfo: {
           variable_id: null,
@@ -95,19 +93,10 @@
       }
     },
     props: [
-      'showCreate'
+      'showCreate',
+      'groups'
     ],
-    created () {
-      this.get_group()
-    },
     methods: {
-      get_group () {
-        new Group()
-          .GET()
-          .then((res) => {
-            this.groups = res.data['data']
-          })
-      },
       post_variable () {
         new Variable()
           .POST({

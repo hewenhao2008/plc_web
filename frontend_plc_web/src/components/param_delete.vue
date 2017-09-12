@@ -9,13 +9,13 @@
     </div>
     <div slot="footer">
       <Button type="error" size="large" :loading="loading" @click="deleteSubmit">删除</Button>
-      <Button size="large" @click="close">取消</Button>
+      <Button type="default" size="large" @click="close">取消</Button>
     </div>
   </Modal>
 </template>
 
 <script>
-  import Station from '../models/actions/station'
+  import Param from '../models/actions/param'
 
   export default {
     data () {
@@ -30,7 +30,7 @@
     methods: {
       deleteSubmit () {
         this.loading = true
-        new Station()
+        new Param()
           .DELETE({
             data: {
               id: this.id

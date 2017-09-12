@@ -13,6 +13,8 @@
 
           <Table stripe highlight-row border :columns="columns" :data="params"></Table>
 
+          <param_edit :showEdit="showEdit" :data="data" @close="closeEdit"></param_edit>
+          <param_delete :showDelete="showDelete" :id="data.id" @close="closeDelete"></param_delete>
         </div>
       </div>
     </div>
@@ -20,10 +22,11 @@
 </template>
 
 <script>
-  import PLC from '../models/actions/plc'
-  import Group from '../models/actions/group'
-  import Variable from '../models/actions/variable'
   import Param from '../models/actions/param'
+  import Variable from '../models/actions/variable'
+
+  import paramDelete from './param_delete'
+  import paramEdit from './param_edit.vue'
 
   export default {
     data () {
@@ -34,6 +37,11 @@
         plcs: [],
         variables: [],
         params: [],
+        value: '',
+        showCreate: false,
+        showEdit: false,
+        showDelete: false,
+        data: {},
         columns: [
           {
             title: '序号',
@@ -52,12 +60,18 @@
             align: 'center',
             sortable: true,
             render: (h, params) => {
+              var self = this
               return h('div', [
                 h('Input', {
                   props: {
-                    value: params.row.value
+                    real_time_value: params.row.value
                   },
-                  value: this.value
+                  on: {
+                    input: function (value) {
+                      self.value = value
+                    }
+                  },
+                  value: this.real_time_value
                 })
               ])
             }
@@ -69,7 +83,7 @@
           }, {
             title: '操作',
             key: 'action',
-            width: 150,
+            width: 200,
             align: 'center',
             fixed: 'right',
             render: (h, params) => {
@@ -84,7 +98,24 @@
                   },
                   on: {
                     click: () => {
-                      this.showCreate = true
+                      this.data = params.row
+                      console.log(this.data.variable_id, this.data.value)
+                      this.modify_value()
+                    }
+                  }
+                }, '保存'),
+                h('Button', {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.data = params.row
+                      this.showEdit = true
                     }
                   }
                 }, '编辑'),
@@ -95,7 +126,8 @@
                   },
                   on: {
                     click: () => {
-                      this.model_delete(params.row.id)
+                      this.data = params.row
+                      this.showDelete = true
                     }
                   }
                 }, '删除')
@@ -105,19 +137,16 @@
         ]
       }
     },
+    components: {
+      'param_delete': paramDelete,
+      'param_edit': paramEdit
+    },
     created () {
       this.get_param()
     },
     methods: {
       flush () {
         setInterval(this.get_value(), 5000)
-      },
-      get_plc () {
-        new PLC()
-          .GET()
-          .then((res) => {
-            this.plcs = res.data['data']
-          })
       },
       get_param () {
         new Param()
@@ -126,61 +155,35 @@
             this.params = res.data['data']
           })
       },
-      get_group () {
-        new Group()
-          .GET()
-          .then((res) => {
-            this.groups = res.data['data']
-          })
-      },
-      post_variable () {
+      modify_value () {
+        this.loading = true
         new Variable()
-          .POST({
-            data: {group_id: this.group_id}
-          })
-          .then((res) => {
-            this.variables = res.data['data']
-          })
-      },
-      get_group_from_plc () {
-        new Group()
-          .POST({
+          .PUT({
             data: {
-              plc_id: this.plc_id
+              id: this.data.variable_id,
+              write_value: this.value
             }
           })
           .then((res) => {
-            this.groups = res.data['data']
-          })
-      },
-      get_variable_from_group () {
-        new Variable()
-          .POST({
-            data: {
-              group_id: this.group_id
+            this.loading = false
+            if (res.data['ok'] === 1) {
+              this.$Message.success(res.data['msg'])
+            } else {
+              this.$Message.error(res.data['msg'])
             }
           })
-          .then((res) => {
-            this.variables = res.data['data']
-          })
       },
-      change (page) {
-        console.log(page)
+      closeCreate () {
+        this.showCreate = false
+        this.get_param()
       },
-      change_time (time) {
-        return new Date(parseInt(time) * 1000).toLocaleString().replace(/年|月/g, '-').replace(/日/g, ' ')
+      closeEdit () {
+        this.showEdit = false
+        this.get_param()
       },
-      model_edit (stationId) {
-        console.log('edit' + stationId)
-      },
-      model_delete (stationId) {
-        console.log('delete' + stationId)
-      },
-      model_create () {
-        console.log('create')
-      },
-      modify () {
-        console.log('modify')
+      closeDelete () {
+        this.showDelete = false
+        this.get_param()
       }
     }
   }

@@ -21,8 +21,8 @@
 
           <Table stripe highlight-row border :columns="columns" :data="alarm_info"></Table>
 
-          <alarm-info-create :showCreate="showCreate" @close="closeCreate"></alarm-info-create>
-          <alarm-info-edit :showEdit="showEdit" :data="data" @close="closeEdit"></alarm-info-edit>
+          <alarm-info-create :groups="groups" :showCreate="showCreate" @close="closeCreate"></alarm-info-create>
+          <alarm-info-edit :groups="groups" :variables="variables" :showEdit="showEdit" :data="data" @close="closeEdit"></alarm-info-edit>
           <alarm-info-delete :showDelete="showDelete" :id="data.id" @close="closeDelete"></alarm-info-delete>
 
         </div>
@@ -32,8 +32,10 @@
 </template>
 
 <script>
+  import Group from '../models/actions/group'
   import PLC from '../models/actions/plc'
   import AlarmInfo from '../models/actions/alarm_info'
+  import Variable from '../models/actions/variable'
 
   import alarmInfoCreate from './alarm_info_create.vue'
   import alarmInfoEdit from './alarm_info_edit.vue'
@@ -46,6 +48,7 @@
         group_id: '',
         groups: [],
         plcs: [],
+        variables: [],
         alarm_info: [],
         showCreate: false,
         showEdit: false,
@@ -137,6 +140,8 @@
     created () {
       this.get_alarm_info()
       this.get_plc()
+      this.get_group()
+      this.get_variable()
     },
     watch: {
       plc_id: function () {
@@ -144,8 +149,12 @@
       }
     },
     methods: {
-      flush () {
-        setInterval(this.get_value(), 5000)
+      get_group () {
+        new Group()
+          .GET()
+          .then((res) => {
+            this.groups = res.data['data']
+          })
       },
       get_alarm_info () {
         new AlarmInfo()
@@ -170,6 +179,13 @@
           .GET()
           .then((res) => {
             this.plcs = res.data['data']
+          })
+      },
+      get_variable () {
+        new Variable()
+          .GET()
+          .then((res) => {
+            this.variables = res.data['data']
           })
       },
       change (page) {

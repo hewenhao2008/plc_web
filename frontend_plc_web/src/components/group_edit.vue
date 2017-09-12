@@ -44,7 +44,7 @@
     </Form>
 
     <div slot="footer">
-      <Button type="success" @click="editSubmit('formGroup')">提交</Button>
+      <Button type="success" :loading="loading" @click="editSubmit('formGroup')">提交</Button>
       <Button type="ghost" @click="handleReset()" style="margin-left: 8px">重置</Button>
       <Button type="ghost" @click="handleClean('formGroup')" style="margin-left: 8px">清空</Button>
       <Button type="ghost" @click="close" style="margin-left: 8px">关闭</Button>

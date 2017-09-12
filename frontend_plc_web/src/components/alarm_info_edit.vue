@@ -1,5 +1,5 @@
 <template>
-  <Modal v-model="showCreate" title="新建" :mask-closable="false" :closable="false">
+  <Modal v-model="showEdit" title="编辑" :mask-closable="false" :closable="false">
 
     <!--<p slot="close"><Button type="ghost" @click="close" style="margin-left: 8px">关闭</Button></p>-->
     <Form ref="formAlarmInfo" :model="formAlarmInfo" :label-width="80">
@@ -13,7 +13,7 @@
 
         <Select transfer v-model="formAlarmInfo.variable_id" style="width:100px" placeholder="选择变量名"
                 filterable>
-          <Option v-for="variable in variables" :value="variable.id" :key="variable.id">{{ variable.variable_name }}
+          <Option v-for="variable in post_variables" :value="variable.id" :key="variable.id">{{ variable.variable_name }}
           </Option>
         </Select>
 
@@ -35,7 +35,7 @@
     </Form>
 
     <div slot="footer">
-      <Button type="success" :loading="loading" @click="editSubmit('formVariableEdit')">提交</Button>
+      <Button type="success" :loading="loading" @click="editSubmit('formAlarmInfo')">提交</Button>
       <Button type="ghost" @click="handleReset()" style="margin-left: 8px">重置</Button>
       <Button type="ghost" @click="handleClean('formAlarmInfo')" style="margin-left: 8px">清空</Button>
       <Button type="ghost" @click="close" style="margin-left: 8px">关闭</Button>
@@ -45,7 +45,6 @@
 </template>
 
 <script>
-  import Group from '../models/actions/group'
   import AlarmInfo from '../models/actions/alarm_info'
   import Variable from '../models/actions/variable'
 
@@ -53,21 +52,14 @@
     data () {
       return {
         loading: false,
-        formVariableEdit: {
+        group_id: '',
+        post_variables: [],
+        variables: [],
+        formAlarmInfo: {
           id: null,
-          variable_name: null,
-          group_id: null,
-          address: null,
-          acquisition_cycle: null,
-          data_type: null,
-          area: null,
-          db_num: null,
-          note: null,
-          rw_type: null,
-          server_record_cycle: null,
-          ten_id: null,
-          upload: null,
-          write_value: null
+          variable_id: null,
+          alarm_type: null,
+          note: null
         }
 //        ruleVariableCreate: {
 //          variable_name: [
@@ -105,6 +97,10 @@
       'groups',
       'data'
     ],
+    create () {
+      this.get_variable()
+      this.post_variables = this.variables
+    },
     watch: {
       data: function () {
         this.data2form()
@@ -112,32 +108,20 @@
     },
     methods: {
       data2form () {
-        this.formVariableEdit.id = this.data.id
-        this.formVariableEdit.variable_name = this.data.variable_name
-        this.formVariableEdit.group_id = this.data.group_id
-        this.formVariableEdit.address = this.data.address
-        if (this.data.acquisition_cycle) {
-          this.formVariableEdit.acquisition_cycle = this.data.acquisition_cycle.toString()
+        this.formAlarmInfo.id = this.data.id
+        if (this.data.variable_id) {
+          this.formAlarmInfo.variable_id = this.data.variable_id.toString()
         }
-        this.formVariableEdit.data_type = this.data.data_type
-        if (this.data.area) {
-          this.formVariableEdit.area = this.data.area.toString()
+        if (this.data.alarm_type) {
+          this.formAlarmInfo.alarm_type = this.data.alarm_type.toString()
         }
-        this.formVariableEdit.db_num = this.data.db_num
-        this.formVariableEdit.note = this.data.note
-        this.formVariableEdit.rw_type = this.data.rw_type
-        if (this.data.server_record_cycle) {
-          this.formVariableEdit.server_record_cycle = this.data.server_record_cycle.toString()
-        }
-        this.formVariableEdit.ten_id = this.data.ten_id
-        this.formVariableEdit.upload = this.data.upload
-        this.formVariableEdit.write_value = this.data.write_value
+        this.formAlarmInfo.note = this.data.note
       },
-      get_group () {
-        new Group()
+      get_variable () {
+        new Variable()
           .GET()
           .then((res) => {
-            this.groups = res.data['data']
+            this.variables = res.data['data']
           })
       },
       post_variable () {
@@ -148,16 +132,16 @@
             }
           })
           .then((res) => {
-            this.variables = res.data['data']
+            this.post_variables = res.data['data']
           })
       },
       editSubmit (name) {
         this.loading = true
         this.$refs[name].validate((valid) => {
           if (valid) {
-            new Variable()
+            new AlarmInfo()
               .PUT({
-                data: this.formVariableEdit
+                data: this.formAlarmInfo
               })
               .then((res) => {
                 this.loading = false
