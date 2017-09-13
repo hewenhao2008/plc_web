@@ -166,6 +166,7 @@
         }, 500)
         this.chart.hideLoading()
 //        console.log('e')
+        
       }
     },
 
