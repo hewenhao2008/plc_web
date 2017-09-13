@@ -20,7 +20,7 @@ from plc_web.views import index, current_datetime, hours_ahead, yunji_1, npm
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', TemplateView.as_view(template_name='index.html')),
+    url(r'^$', TemplateView.as_view(template_name='index2.html')),
     url(r'^time/$', current_datetime),
     url(r'^time/plus/(\d{1,2})$', hours_ahead),
     url(r'^yunji/1/$', TemplateView.as_view(template_name='p1.html')),
