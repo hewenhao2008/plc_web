@@ -98,7 +98,7 @@
     },
     props: [
       'showCreate',
-      'groups'
+      'plcs'
     ],
     methods: {
       createSubmit () {
