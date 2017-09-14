@@ -15,7 +15,6 @@ import 'font-awesome/css/font-awesome.css'
 
 import Layout from './components/layout.vue'
 import Home from './components/Home'
-import Search from './components/Search'
 import Login from './components/login.vue'
 import realTimeData from './components/real-time-data.vue'
 import history from './components/history-data.vue'
@@ -110,10 +109,6 @@ const routes = [
         component: Home
       }
     ]
-
-  }, {
-    path: '/search',
-    component: Search
   }, {
     path: '/login',
     component: Login

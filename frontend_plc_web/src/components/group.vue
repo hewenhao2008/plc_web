@@ -162,15 +162,15 @@
       },
       closeCreate () {
         this.showCreate = false
-        this.get_variable()
+        this.get_group()
       },
       closeEdit () {
         this.showEdit = false
-        this.get_variable()
+        this.get_group()
       },
       closeDelete () {
         this.showDelete = false
-        this.get_variable()
+        this.get_group()
       }
     }
   }

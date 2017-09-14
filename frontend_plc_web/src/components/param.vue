@@ -174,15 +174,12 @@
       },
       closeCreate () {
         this.showCreate = false
-        this.get_variable()
       },
       closeEdit () {
         this.showEdit = false
-        this.get_variable()
       },
       closeDelete () {
         this.showDelete = false
-        this.get_variable()
       }
     }
   }
