@@ -20,7 +20,7 @@
           <Table stripe highlight-row border :columns="columns" :data="query_variables"></Table>
 
           <query-add :query_id='query_id' :showAdd="showAdd" @close="closeAdd"></query-add>
-          <query-var-delete :query_id='query_id' :variable_id="data.id" :showDelete="showDelete" @close="closeDelete"></query-var-delete>
+          <query-var-delete :query_id='query_id' :variable_id="data.var_id" :showDelete="showDelete" @close="closeDelete"></query-var-delete>
         </div>
       </div>
     </div>

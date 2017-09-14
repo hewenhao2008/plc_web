@@ -1,21 +1,22 @@
 <template>
   <Modal v-model="showAdd" title="添加" :mask-closable="false" :closable="false">
 
+    <Form :label-width="80">
+      <Select transfer v-model="group_id" style="width:100px" placeholder="选择变量组"
+              filterable @on-change="post_variable">
+        <Option v-for="group in groups" :value="group.id" :key="group.id">{{ group.group_name }}</Option>
+      </Select>
 
-    <Select transfer v-model="group_id" style="width:100px" placeholder="选择变量组"
-            filterable @on-change="post_variable">
-      <Option v-for="group in groups" :value="group.id" :key="group.id">{{ group.group_name }}</Option>
-    </Select>
-
-    <Select transfer v-model="variable_id" style="width:100px" placeholder="选择变量"
-            filterable>
-      <Option v-for="variable in variables" :value="variable.id" :key="variable.id">{{ variable.variable_name }}
-      </Option>
-    </Select>
-
+      <Select transfer v-model="variable_id" style="width:100px" placeholder="选择变量"
+              filterable>
+        <Option v-for="variable in variables" :value="variable.id" :key="variable.id">{{ variable.variable_name }}
+        </Option>
+      </Select>
+    </Form>
 
     <div slot="footer">
-      <Button type="success" @click="addSubmit">提交</Button>
+      <Button type="success" :loading="loading" @click="addSubmit">提交</Button>
+      <Button type="success" :loading="loading" @click="createSubmitContinue">提交并继续</Button>
       <Button type="ghost" @click="close" style="margin-left: 8px">关闭</Button>
     </div>
   </Modal>
@@ -97,6 +98,10 @@
           })
       },
       addSubmit () {
+        this.createSubmitContinue()
+        this.$emit('close')
+      },
+      createSubmitContinue () {
         this.loading = true
         new Query()
           .PUT({
@@ -112,7 +117,6 @@
             } else {
               this.$Message.error(res.data['msg'])
             }
-            this.$emit('close')
           })
       },
       handleReset () {

@@ -34,7 +34,7 @@
         new Query()
           .DELETE({
             data: {
-              id: this.id,
+              id: this.query_id,
               variable_id: this.variable_id
             }
           })

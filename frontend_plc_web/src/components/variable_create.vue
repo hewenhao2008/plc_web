@@ -2,7 +2,7 @@
   <Modal v-model="showCreate" title="新建" :mask-closable="false" :closable="false">
 
     <!--<p slot="close"><Button type="ghost" @click="close" style="margin-left: 8px">关闭</Button></p>-->
-    <Form ref="formVariable" :model="formVariable" :label-width="80">
+    <Form ref="formVariable" :model="formVariable" :label-width="80" inline>
 
       <FormItem label="变量名" prop="variable_name">
         <Input v-model="formVariable.variable_name" placeholder="请输入变量名"></Input>
@@ -189,6 +189,7 @@
             } else {
               this.$Message.error(res.data['msg'])
             }
+            this.handleClean('formVariable')
             this.$emit('close')
           })
       },
@@ -211,6 +212,7 @@
         this.$refs[name].resetFields()
       },
       close () {
+        this.handleClean('formVariable')
         this.$emit('close')
       }
     }

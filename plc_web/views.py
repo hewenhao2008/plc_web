@@ -71,7 +71,7 @@ class APIBase(APIView):
         param = json.loads(request.body)
         print(param)
         res = requests.put(self.url, json=param)
-        print(res.status_code)
+        print(res.status_code, res.content)
         data = res.json()
         print(data)
         return Response(data)
