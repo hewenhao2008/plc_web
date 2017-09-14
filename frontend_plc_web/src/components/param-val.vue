@@ -60,7 +60,7 @@
             align: 'center',
             sortable: true,
             render: (h, params) => {
-              var self = this
+              let self = this
               return h('div', [
                 h('Input', {
                   props: {

@@ -11,7 +11,7 @@ const PROD = 'PROD'
 const ENV = HOST === 'localhost:8080' ? DEV : PROD
 
 // 基础地址
-const BASE_URL = ENV === DEV ? 'http://localhost:8000' : 'http://api.liruan.cn'
+const BASE_URL = ENV === DEV ? 'http://localhost:8000' : 'http://1.plcweb.applinzi.com'
 
 // 接口地址
 const API_URL = BASE_URL + '/api'
