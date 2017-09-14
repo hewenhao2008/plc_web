@@ -11,7 +11,7 @@
       <br><br>
     </div>
 
-    <Form ref="formVariableEdit" :model="formVariableEdit" :label-width="80">
+    <Form ref="formVariableEdit" :model="formVariableEdit" :label-width="80" inline>
 
       <FormItem label="变量名" prop="variable_name">
         <Input v-model="formVariableEdit.variable_name" placeholder="请输入变量名"></Input>

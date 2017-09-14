@@ -1,7 +1,7 @@
 <template>
   <Modal v-model="showAdd" title="添加" :mask-closable="false" :closable="false">
 
-    <Form :label-width="80">
+    <Form :label-width="80" inline>
       <Select transfer v-model="group_id" style="width:100px" placeholder="选择变量组"
               filterable @on-change="post_variable">
         <Option v-for="group in groups" :value="group.id" :key="group.id">{{ group.group_name }}</Option>

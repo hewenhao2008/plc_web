@@ -11,7 +11,7 @@
       <br><br>
     </div>
 
-    <Form ref="formParam" :model="formParam" :label-width="80">
+    <Form ref="formParam" :model="formParam" :label-width="80" inline>
 
       <FormItem label="参数名称" prop="param_name">
         <Input v-model="formParam.param_name" placeholder="请输入参数名"></Input>

@@ -3,7 +3,7 @@
   <Modal v-model="showCreate" title="新建" :mask-closable="false" :closable="false">
 
     <!--<p slot="close"><Button type="ghost" @click="close" style="margin-left: 8px">关闭</Button></p>-->
-    <Form ref="formStation" :model="formStation" :label-width="80">
+    <Form ref="formStation" :model="formStation" :label-width="80" inline>
 
       <FormItem label="站名称" prop="station_name">
         <Input v-model="formStation.station_name" placeholder="请输入站名称"></Input>

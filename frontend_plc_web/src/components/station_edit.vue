@@ -12,7 +12,7 @@
       <br><br>
     </div>
 
-    <Form ref="formStation" :model="formStation" :label-width="80">
+    <Form ref="formStation" :model="formStation" :label-width="80" inline>
 
       <FormItem label="站名称" prop="station_name">
         <Input v-model="formStation.station_name" placeholder="请输入站名称"></Input>

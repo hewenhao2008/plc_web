@@ -3,7 +3,7 @@
   <Modal v-model="showCreate" title="新建" :mask-closable="false" :closable="false">
 
     <!--<p slot="close"><Button type="ghost" @click="close" style="margin-left: 8px">关闭</Button></p>-->
-    <Form ref="formPLC" :model="formPLC" :label-width="80">
+    <Form ref="formPLC" :model="formPLC" :label-width="80" inline>
 
       <FormItem label="PLC名称" prop="plc_name">
         <Input v-model="formPLC.plc_name" placeholder="请输入PLC名称"></Input>

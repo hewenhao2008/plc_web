@@ -4,7 +4,7 @@
     <div slot="header">
       <span style="float: left">编辑</span>
       <span style="float: right">
-      <Button type="ghost" size="small" @click="close" style="margin-left: 8px">
+      <Button type="ghost" size="small" @click="close" style="margin-left: 8px" inline>
         <Icon type="close"></Icon>
       </Button>
         </span>

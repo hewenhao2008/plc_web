@@ -1,7 +1,7 @@
 <template>
   <Modal v-model="showEdit" title="编辑" :mask-closable="false" :closable="false">
 
-    <Form ref="formQuery" :model="formQuery" :label-width="80">
+    <Form ref="formQuery" :model="formQuery" :label-width="80" inline>
 
       <FormItem label="组名称" prop="name">
         <Input v-model="formQuery.name" placeholder="请输入组名称"></Input>

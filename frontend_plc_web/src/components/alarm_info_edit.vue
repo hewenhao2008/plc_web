@@ -2,7 +2,7 @@
   <Modal v-model="showEdit" title="编辑" :mask-closable="false" :closable="false">
 
     <!--<p slot="close"><Button type="ghost" @click="close" style="margin-left: 8px">关闭</Button></p>-->
-    <Form ref="formAlarmInfo" :model="formAlarmInfo" :label-width="80">
+    <Form ref="formAlarmInfo" :model="formAlarmInfo" :label-width="80" inline>
 
 
       <FormItem label="选择变量" prop="variable_id">

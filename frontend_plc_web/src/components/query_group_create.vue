@@ -2,7 +2,7 @@
   <Modal v-model="showCreate" title="新建" :mask-closable="false" :closable="false">
 
     <!--<p slot="close"><Button type="ghost" @click="close" style="margin-left: 8px">关闭</Button></p>-->
-    <Form ref="formQuery" :model="formQuery" :label-width="80">
+    <Form ref="formQuery" :model="formQuery" :label-width="80" inline>
 
       <FormItem label="组名称" prop="name">
         <Input v-model="formQuery.name" placeholder="请输入组名称"></Input>

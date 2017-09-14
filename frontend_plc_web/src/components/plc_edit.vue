@@ -1,8 +1,8 @@
 <template>
-  <Modal v-model="showCreate" title="编辑" :mask-closable="false" :closable="false">
+  <Modal v-model="showEdit" title="编辑" :mask-closable="false" :closable="false">
 
     <!--<p slot="close"><Button type="ghost" @click="close" style="margin-left: 8px">关闭</Button></p>-->
-    <Form ref="formPLC" :model="formPLC" :label-width="80">
+    <Form ref="formPLC" :model="formPLC" :label-width="80" inline>
 
       <FormItem label="PLC名称" prop="plc_name">
         <Input v-model="formPLC.plc_name" placeholder="请输入PLC名称"></Input>
@@ -104,7 +104,7 @@
       }
     },
     props: [
-      'showCreate',
+      'showEdit',
       'stations',
       'data'
     ],
@@ -115,13 +115,15 @@
     },
     methods: {
       data2form () {
-        this.formVariableEdit.id = this.data.id
-        this.formVariableEdit.plc_name = this.data.plc_name
-        this.formVariableEdit.station_id = this.data.station_id
-        this.formVariableEdit.ip = this.data.ip
-        this.formVariableEdit.mpi = this.data.mpi
-        this.formVariableEdit.type = this.data.type
-        this.formVariableEdit.plc_type = this.data.plc_type
+        this.formPLC.id = this.data.id
+        this.formPLC.plc_name = this.data.plc_name
+        this.formPLC.station_id = this.data.station_id
+        this.formPLC.ip = this.data.ip
+        this.formPLC.mpi = this.data.mpi
+        if (this.data.type) {
+          this.formPLC.type = this.data.type.toString()
+        }
+        this.formPLC.plc_type = this.data.plc_type
       },
       editSubmit (name) {
         this.loading = true
@@ -129,7 +131,7 @@
           if (valid) {
             new PLC()
               .PUT({
-                data: this.formVariableEdit
+                data: this.formPLC
               })
               .then((res) => {
                 this.loading = false
