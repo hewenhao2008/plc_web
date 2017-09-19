@@ -61,7 +61,7 @@ router.register(r'groups', GroupViewSet)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    # url(r'^$', TemplateView.as_view(template_name='index2.html')),
+    url(r'^$', TemplateView.as_view(template_name='index.html')),
     # url(r'^time/$', current_datetime),
     # url(r'^time/plus/(\d{1,2})$', hours_ahead),
     # url(r'^yunji/1/$', TemplateView.as_view(template_name='p1.html')),
