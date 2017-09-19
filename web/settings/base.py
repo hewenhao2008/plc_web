@@ -28,6 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+APPEND_SLASH = True
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -39,11 +41,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'plc_web',
+    'rest_framework.authtoken',
+    'oauth2_provider'
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware', # django-cors-headers
+    'corsheaders.middleware.CorsMiddleware',  # django-cors-headers
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -106,8 +110,27 @@ CORS_ORIGIN_ALLOW_ALL = True
 # django-rest-framework
 REST_FRAMEWORK = {
     # 身份验证
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework.authentication.BasicAuthentication',
+    #     'rest_framework.authentication.TokenAuthentication',
+    #     'rest_framework.authentication.SessionAuthentication',
+    #     'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+    # ),
     # 'DEFAULT_PERMISSION_CLASSES': [
     #     'rest_framework.permissions.IsAdminUser',
+    #     'rest_framework.permissions.IsAuthenticated',
     # ],
     'PAGE_SIZE': 10
 }
+
+OAUTH2_PROVIDER = {
+    # this is the list of available scopes
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
+}
+
+GITHUB_CLIENT_ID = '522cf63c1277f6aea2b7'  # 你刚才得到的Client ID
+GITHUB_CLIENT_SECERT = '68b34b6ed08c4b97623a2b0657dbb99096b00d85'  # 你刚才得到的Client Secret
+GITHUB_REDIRECT = 'https://github.com/login/oauth/authorize'
+GITHUB_REDIRECT_EXCHANGE = 'https://github.com/login/oauth/access_token'
+GITHUB_API = 'https://api.github.com/user'
+REDIRECT_URL = 'http://localhost:8000/oauth/github'  # 你注册应用时填写的回调url，必须和注册时填写的一致

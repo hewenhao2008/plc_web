@@ -1,4 +1,4 @@
-import iView from 'iview'
+// import iView from 'iview'
 import auth from '../auth'
 
 /**
@@ -17,7 +17,8 @@ export default {
    * @param {Object} res 返回数据
    */
   errorHandler (res) {
-    iView.Message.error(res.response.data.error.message)
+    console.log(res.response)
+    // iView.Message.error(res.response.data.error.message)
   },
 
   /**

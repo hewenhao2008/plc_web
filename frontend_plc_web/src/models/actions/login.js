@@ -7,6 +7,6 @@ export default class extends REST {
     super()
     this.baseURL = consts.API_URL
     this.errorHandler = restHelpers.errorHandler
-    this.path = 'login/'
+    this.path = 'user'
   }
 }

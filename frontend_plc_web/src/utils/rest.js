@@ -31,7 +31,11 @@ export default class REST {
      * Headers
      * @type {Object}
      */
-    this.headers = {'Content-Type': 'application/json; charset=utf-8'}
+    this.headers = {
+      'Content-Type': 'application/json; charset=utf-8'
+      // 'Authorization': 'Token a398092c223b17fa81ffb52e0749b36c6d8db38b'
+      // 'Authorization': ''
+    }
 
     /**
      * 统一错误处理
