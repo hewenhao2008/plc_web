@@ -60,7 +60,7 @@
 
 </template>
 <script>
-  import Gravatar from '@/components/Gravatar'
+  import Gravatar from '@/components/gravatar'
 
   import auth from '@/utils/auth'
   import storage from '@/utils/helpers/storageLite'

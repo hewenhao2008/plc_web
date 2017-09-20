@@ -19,8 +19,8 @@
       },
 
       size: {
-        type: Number,
-        default: 80
+        type: String,
+        default: 40
       },
 
       defaultImg: {
@@ -42,7 +42,8 @@
     computed: {
       url () {
         const img = [
-          '//cn.gravatar.com/avatar/',
+//          '//cn.gravatar.com/avatar/',
+          '//cdn.v2ex.com/gravatar/',
           this.hash || md5(this.email.trim().toLowerCase()),
           `?s=${this.size}`,
           `&d=${this.defaultImg}`,
