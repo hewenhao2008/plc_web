@@ -34,14 +34,11 @@
         <div v-if="is_login">
           <Submenu name="user">
             <template slot="title">
-              <!--<Icon type="stats-bars"></Icon>-->
               <v-gravatar :email="email" size="40"></v-gravatar>
               {{ username }}
             </template>
             <MenuItem name="3-1">用户资料</MenuItem>
-            <!--<router-link to="/logout">-->
             <MenuItem name="logout"><p @click="handleLogout">退出登录</p></MenuItem>
-            <!--</router-link>-->
           </Submenu>
         </div>
         <div v-else>
