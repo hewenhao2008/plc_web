@@ -35,7 +35,7 @@
           <Submenu name="user">
             <template slot="title">
               <!--<Icon type="stats-bars"></Icon>-->
-              <v-gravatar :email="email"></v-gravatar>
+              <v-gravatar :email="email" size="40"></v-gravatar>
               {{ username }}
             </template>
             <MenuItem name="3-1">用户资料</MenuItem>
@@ -60,7 +60,7 @@
 
 </template>
 <script>
-  import Gravatar from 'vue-gravatar'
+  import Gravatar from './gravatar/index'
   import auth from '@/utils/auth'
   import storage from '@/utils/helpers/storageLite'
 
